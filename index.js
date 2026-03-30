@@ -12,89 +12,213 @@ const client = new Client({
   ]
 });
 
-const DONO_ID = '1440029251725295626';
+const DONO_ID = process.env.DONO_ID;
 
+// 🔥 BOT ONLINE
 client.once('ready', () => {
-  console.log(`🔥 Bot online como ${client.user.tag}`);
+  console.log(`✅ Bot online como ${client.user.tag}`);
 });
 
-// ================= SETUP ESTÉTICO
+// 🔥 LOG DE MENSAGENS (pra testar)
+client.on('messageCreate', (message) => {
+  console.log('MSG:', message.content);
+});
+
+// ================= COMANDO SETUP
 client.on('messageCreate', async (message) => {
 
   if (message.author.bot) return;
+
+  // 🔒 só dono usa
   if (message.author.id !== DONO_ID) return;
 
-  if (message.content === '!GOGOGO') {
+  if (message.content.startsWith('!miguelgay')) {
 
-    message.reply('⚙️ Criando servidor estilizado...');
+    message.reply('⚙️ Criando servidor completo...');
 
-    // ================= CATEGORIA PRINCIPAL
-    const cat1 = await message.guild.channels.create({
-      name: '━━━ 🌑 𝑺𝑬𝑹𝑽𝑬𝑹 🌑 ━━━',
-      type: ChannelType.GuildCategory
-    });
+    try {
 
-    await message.guild.channels.create({
-      name: '📜・regras',
-      type: ChannelType.GuildText,
-      parent: cat1.id
-    });
+      // ================= BOAS VINDAS
+      const cat1 = await message.guild.channels.create({
+        name: '📌 BOAS-VINDAS',
+        type: ChannelType.GuildCategory
+      });
 
-    await message.guild.channels.create({
-      name: '📢・avisos',
-      type: ChannelType.GuildText,
-      parent: cat1.id
-    });
+      await message.guild.channels.create({
+        name: '👋・boas-vindas',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    // ================= COMUNIDADE
-    const cat2 = await message.guild.channels.create({
-      name: '━━━ 💬 𝑪𝑶𝑴𝑼𝑵𝑰𝑫𝑨𝑫𝑬 💬 ━━━',
-      type: ChannelType.GuildCategory
-    });
+      await message.guild.channels.create({
+        name: '📢・avisos',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    await message.guild.channels.create({
-      name: '💬・chat-geral',
-      type: ChannelType.GuildText,
-      parent: cat2.id
-    });
+      await message.guild.channels.create({
+        name: '📜・termos',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    await message.guild.channels.create({
-      name: '😂・memes',
-      type: ChannelType.GuildText,
-      parent: cat2.id
-    });
+      await message.guild.channels.create({
+        name: '📥・como-adquirir',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    // ================= SUPORTE
-    const cat3 = await message.guild.channels.create({
-      name: '━━━ 🎟️ 𝑺𝑼𝑷𝑶𝑹𝑻𝑬 🎟️ ━━━',
-      type: ChannelType.GuildCategory
-    });
+      await message.guild.channels.create({
+        name: '💜・seja-da-equipe',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    await message.guild.channels.create({
-      name: '🎫・abrir-ticket',
-      type: ChannelType.GuildText,
-      parent: cat3.id
-    });
+      await message.guild.channels.create({
+        name: '✅・verificacao',
+        type: ChannelType.GuildText,
+        parent: cat1.id
+      });
 
-    // ================= VOZ
-    const cat4 = await message.guild.channels.create({
-      name: '━━━ 🔊 𝑪𝑨𝑳𝑳𝑺 🔊 ━━━',
-      type: ChannelType.GuildCategory
-    });
+      // ================= CHAT
+      const cat2 = await message.guild.channels.create({
+        name: '💬 GERAL',
+        type: ChannelType.GuildCategory
+      });
 
-    await message.guild.channels.create({
-      name: '🔊・Geral',
-      type: ChannelType.GuildVoice,
-      parent: cat4.id
-    });
+      await message.guild.channels.create({
+        name: '💬・geral',
+        type: ChannelType.GuildText,
+        parent: cat2.id
+      });
 
-    await message.guild.channels.create({
-      name: '🎮・Squad',
-      type: ChannelType.GuildVoice,
-      parent: cat4.id
-    });
+      // ================= FFH4X ANDROID
+      const cat3 = await message.guild.channels.create({
+        name: '📱 FFH4X ANDROID',
+        type: ChannelType.GuildCategory
+      });
 
-    message.channel.send('✅ Servidor criado no estilo das imagens!');
+      await message.guild.channels.create({
+        name: '🏅・apk-mod-android',
+        type: ChannelType.GuildText,
+        parent: cat3.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・contas-ghost-ff',
+        type: ChannelType.GuildText,
+        parent: cat3.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・holograma-android',
+        type: ChannelType.GuildText,
+        parent: cat3.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・drip-cliente',
+        type: ChannelType.GuildText,
+        parent: cat3.id
+      });
+
+      // ================= FFH4X IOS
+      const cat4 = await message.guild.channels.create({
+        name: '🍎 FFH4X IOS',
+        type: ChannelType.GuildCategory
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・iphone-rage',
+        type: ChannelType.GuildText,
+        parent: cat4.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・iphone-safe',
+        type: ChannelType.GuildText,
+        parent: cat4.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・bypass-full',
+        type: ChannelType.GuildText,
+        parent: cat4.id
+      });
+
+      await message.guild.channels.create({
+        name: '🏅・hs-wifi',
+        type: ChannelType.GuildText,
+        parent: cat4.id
+      });
+
+      // ================= SUPORTE
+      const cat5 = await message.guild.channels.create({
+        name: '🎟️ SUPORTE',
+        type: ChannelType.GuildCategory
+      });
+
+      await message.guild.channels.create({
+        name: '💬・suporte',
+        type: ChannelType.GuildText,
+        parent: cat5.id
+      });
+
+      await message.guild.channels.create({
+        name: '🔊 Atendimento 1',
+        type: ChannelType.GuildVoice,
+        parent: cat5.id
+      });
+
+      await message.guild.channels.create({
+        name: '🔊 Atendimento 2',
+        type: ChannelType.GuildVoice,
+        parent: cat5.id
+      });
+
+      await message.guild.channels.create({
+        name: '🔊 Atendimento 3',
+        type: ChannelType.GuildVoice,
+        parent: cat5.id
+      });
+
+      // ================= DOWNLOADS
+      const cat6 = await message.guild.channels.create({
+        name: '📥 DOWNLOADS',
+        type: ChannelType.GuildCategory
+      });
+
+      await message.guild.channels.create({
+        name: '✅・download-android',
+        type: ChannelType.GuildText,
+        parent: cat6.id
+      });
+
+      await message.guild.channels.create({
+        name: '✅・download-ios',
+        type: ChannelType.GuildText,
+        parent: cat6.id
+      });
+
+      await message.guild.channels.create({
+        name: '✅・download-wifi',
+        type: ChannelType.GuildText,
+        parent: cat6.id
+      });
+
+      await message.guild.channels.create({
+        name: '✅・download-drip',
+        type: ChannelType.GuildText,
+        parent: cat6.id
+      });
+
+      message.channel.send('✅ SERVIDOR CRIADO COMPLETO!');
+
+    } catch (err) {
+      console.error(err);
+      message.channel.send('❌ Erro ao criar servidor');
+    }
+
   }
 
 });
