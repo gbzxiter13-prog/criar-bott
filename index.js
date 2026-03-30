@@ -22,6 +22,17 @@ client.once('ready', () => {
   console.log('🔥 BOT ONLINE');
 });
 
+// ================= LISTA DE CANAIS DE PRODUTO
+const canaisProduto = [
+  'apk-mod-android',
+  'iphone-rage',
+  'iphone-safe',
+  'bypass-full',
+  'hs-wifi',
+  'drip-cliente',
+  'contas-ghost-ff'
+];
+
 // ================= PAINEL
 client.on('messageCreate', async (message) => {
 
@@ -29,48 +40,31 @@ client.on('messageCreate', async (message) => {
 
   if (message.content === '!painel') {
 
+    // ❌ BLOQUEIA FORA DOS CANAIS
+    if (!canaisProduto.includes(message.channel.name)) {
+      return message.reply('❌ Esse comando só funciona nos canais de produto');
+    }
+
     const canal = message.channel.name;
 
     let nomeProduto = 'FFH4X ANDROID';
 
     if (canal.includes('iphone-rage')) nomeProduto = 'IPHONE RAGE';
-    if (canal.includes('iphone-safe')) nomeProduto = 'IPHONE SAFE';
-    if (canal.includes('apk')) nomeProduto = 'FFH4X ANDROID';
+    else if (canal.includes('iphone-safe')) nomeProduto = 'IPHONE SAFE';
+    else if (canal.includes('bypass')) nomeProduto = 'BYPASS FULL';
+    else if (canal.includes('wifi')) nomeProduto = 'HS WIFI';
+    else if (canal.includes('drip')) nomeProduto = 'DRIP CLIENTE';
+    else if (canal.includes('ghost')) nomeProduto = 'CONTA GHOST';
 
     const embed = new EmbedBuilder()
       .setTitle(`🔥😈 Painel ${nomeProduto} 😈🔥`)
       .setDescription(`
 🔥😈 Adquira Já seu Painel ${nomeProduto} 😈🔥
 
-🔥 ${nomeProduto}!
+💎 Experiência diferenciada
 
-Se você quer qualidade e resultado, esse painel é pra você.
-
-💎 Experiência diferenciada e máxima eficiência
-
-🔥 O que tem:
-• Aimbot Full
-• ESPs Full
-• Configurável
-• Head / Neck / Chest
-
-💥 Diferenciais
-• Funciona em todos dispositivos 🚀
-• Suporte + Tutorial
-
-🎮 Ideal para:
-• Rank
-• CS
-• Jogar AP
-
-📥 Você recebe:
-• Key no privado
-• Acesso a downloads
-
-🚨 Pode haver risco de blacklist
-
-📦 Entrega rápida
-📲 Suporte antes da compra
+📥 Entrega via ticket
+📲 Suporte disponível
 
 😈🔥 Garanta o seu agora!
       `)
@@ -90,7 +84,7 @@ Se você quer qualidade e resultado, esse painel é pra você.
 
 });
 
-// ================= BOTÃO
+// ================= INTERAÇÕES
 client.on('interactionCreate', async (interaction) => {
 
   // BOTÃO → ESCOLHER PLANO
@@ -117,6 +111,18 @@ client.on('interactionCreate', async (interaction) => {
 
     const valor = interaction.values[0];
     const produto = interaction.channel.name;
+
+    // 🔒 BLOQUEIA DUPLICADO
+    const existente = interaction.guild.channels.cache.find(c =>
+      c.name === `ticket-${interaction.user.username}`
+    );
+
+    if (existente) {
+      return interaction.reply({
+        content: `❌ Você já tem um ticket: ${existente}`,
+        ephemeral: true
+      });
+    }
 
     const canal = await interaction.guild.channels.create({
       name: `ticket-${interaction.user.username}`,
