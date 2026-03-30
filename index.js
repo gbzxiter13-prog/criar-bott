@@ -24,7 +24,7 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
   if (message.author.id !== DONO_ID) return;
 
-  if (message.content === '!miguelgay') {
+  if (message.content === '!GOGOGO') {
 
     message.reply('⚙️ Criando servidor estilizado...');
 
