@@ -31,7 +31,7 @@ client.on('messageCreate', async (message) => {
 
   if (message.content === '!criar') {
 
-    await message.reply('⚙️ obrigado cliente por fazer a compra, aqui o produto');
+    await message.reply('⚙️ obrigado por compra nosso produto...');
 
     try {
 
@@ -61,6 +61,13 @@ client.on('messageCreate', async (message) => {
       // ===== SUPORTE
       const cat5 = await message.guild.channels.create({ name: '🎟️ SUPORTE', type: ChannelType.GuildCategory });
       const suporte = await message.guild.channels.create({ name: '💬・suporte', type: ChannelType.GuildText, parent: cat5.id });
+
+      // ===== VOZ
+      const cat6 = await message.guild.channels.create({ name: '🔊 CALLS', type: ChannelType.GuildCategory });
+      await message.guild.channels.create({ name: '🔊 Geral 1', type: ChannelType.GuildVoice, parent: cat6.id });
+      await message.guild.channels.create({ name: '🔊 Geral 2', type: ChannelType.GuildVoice, parent: cat6.id });
+      await message.guild.channels.create({ name: '🔊 Suporte 1', type: ChannelType.GuildVoice, parent: cat6.id });
+      await message.guild.channels.create({ name: '🔊 Suporte 2', type: ChannelType.GuildVoice, parent: cat6.id });
 
       // ================= FUNÇÃO PAINEL
       async function painel(canal, nome) {
@@ -147,7 +154,7 @@ Conta ideal para quem busca praticidade.
         components: [new ActionRowBuilder().addComponents(botaoGhost)]
       });
 
-      // ===== SUPORTE PAINEL
+      // ===== SUPORTE
       const embedSup = new EmbedBuilder()
         .setTitle('📋 Painel de Atendimento')
         .setDescription(`
@@ -156,9 +163,9 @@ Conta ideal para quem busca praticidade.
 • Atendimento: 08:00 às 00:00
 • Seja objetivo
 • Tempo máximo: 1 hora
-• Sem discussões após decisão
+• Sem discussões
 
-Escolha abaixo o tipo de suporte:
+Escolha abaixo:
         `)
         .setColor('#8A2BE2');
 
@@ -180,7 +187,7 @@ Escolha abaixo o tipo de suporte:
 
     } catch (e) {
       console.log(e);
-      message.channel.send('❌ Erro ao criar');
+      message.channel.send('❌ Erro');
     }
   }
 });
@@ -188,12 +195,10 @@ Escolha abaixo o tipo de suporte:
 // ================= INTERAÇÕES
 client.on('interactionCreate', async (interaction) => {
 
-  // ===== BOTÃO COMPRAR
   if (interaction.isButton() && interaction.customId === 'comprar') {
 
     const menu = new StringSelectMenuBuilder()
       .setCustomId('plano')
-      .setPlaceholder('📦 Escolha seu plano')
       .addOptions([
         { label: '1 DIA', value: '17.90' },
         { label: '7 DIAS', value: '25.90' },
@@ -207,11 +212,10 @@ client.on('interactionCreate', async (interaction) => {
     });
   }
 
-  // ===== CRIAR TICKET COMPRA
   if (interaction.isStringSelectMenu() && interaction.customId === 'plano') {
 
     if (ticketsAbertos.has(interaction.user.id)) {
-      return interaction.reply({ content: '❌ Você já tem um ticket!', ephemeral: true });
+      return interaction.reply({ content: '❌ Já tem ticket!', ephemeral: true });
     }
 
     ticketsAbertos.add(interaction.user.id);
@@ -233,8 +237,6 @@ client.on('interactionCreate', async (interaction) => {
 
 📲 Chave PIX:
 O dono vai enviar aqui
-
-⏳ Aguarde confirmação
       `)
       .setColor('#8A2BE2');
 
@@ -249,13 +251,9 @@ O dono vai enviar aqui
       components: [new ActionRowBuilder().addComponents(fechar)]
     });
 
-    interaction.reply({
-      content: `✅ Ticket criado: ${canal}`,
-      ephemeral: true
-    });
+    interaction.reply({ content: `✅ ${canal}`, ephemeral: true });
   }
 
-  // ===== FECHAR TICKET
   if (interaction.isButton() && interaction.customId === 'fechar_ticket') {
 
     ticketsAbertos.delete(interaction.user.id);
@@ -267,11 +265,10 @@ O dono vai enviar aqui
     }, 2000);
   }
 
-  // ===== SUPORTE
   if (interaction.isStringSelectMenu() && interaction.customId === 'menu_ticket') {
 
     if (ticketsAbertos.has(interaction.user.id)) {
-      return interaction.reply({ content: '❌ Você já tem um ticket!', ephemeral: true });
+      return interaction.reply({ content: '❌ Já tem ticket!', ephemeral: true });
     }
 
     ticketsAbertos.add(interaction.user.id);
@@ -289,9 +286,9 @@ O dono vai enviar aqui
       .setDescription(`
 👤 ${interaction.user} criou o ticket
 
-Aguarde a equipe de suporte/staff para lhe responder.
+Aguarde suporte/staff.
 
-📌 Não envie spam
+📌 Sem spam
 📌 Aguarde atendimento
       `)
       .setColor('#8A2BE2');
@@ -307,10 +304,7 @@ Aguarde a equipe de suporte/staff para lhe responder.
       components: [new ActionRowBuilder().addComponents(fechar)]
     });
 
-    interaction.reply({
-      content: `✅ Ticket criado: ${canal}`,
-      ephemeral: true
-    });
+    interaction.reply({ content: `✅ ${canal}`, ephemeral: true });
   }
 
 });
