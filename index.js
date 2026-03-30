@@ -22,7 +22,7 @@ client.once('ready', () => {
   console.log('🔥 BOT ONLINE');
 });
 
-// ================= SETUP COMPLETO
+// ================= SETUP
 client.on('messageCreate', async (message) => {
 
   if (message.author.bot) return;
@@ -33,72 +33,83 @@ client.on('messageCreate', async (message) => {
 
     try {
 
-      // ================= ANDROID
-      const catAndroid = await message.guild.channels.create({
-        name: '📱 FFH4X ANDROID',
-        type: ChannelType.GuildCategory
-      });
+      // ================= BOAS VINDAS
+      const cat1 = await message.guild.channels.create({ name: '📌 BOAS-VINDAS', type: ChannelType.GuildCategory });
+      await message.guild.channels.create({ name: '👋・boas-vindas', type: ChannelType.GuildText, parent: cat1.id });
+      await message.guild.channels.create({ name: '📢・avisos', type: ChannelType.GuildText, parent: cat1.id });
+      await message.guild.channels.create({ name: '📜・termos', type: ChannelType.GuildText, parent: cat1.id });
+      await message.guild.channels.create({ name: '📥・como-adquirir', type: ChannelType.GuildText, parent: cat1.id });
+      await message.guild.channels.create({ name: '💜・seja-da-equipe', type: ChannelType.GuildText, parent: cat1.id });
+      await message.guild.channels.create({ name: '✅・verificacao', type: ChannelType.GuildText, parent: cat1.id });
 
-      const apk = await message.guild.channels.create({
-        name: '🏅・apk-mod-android',
-        type: ChannelType.GuildText,
-        parent: catAndroid.id
-      });
+      // ================= GERAL
+      const cat2 = await message.guild.channels.create({ name: '💬 GERAL', type: ChannelType.GuildCategory });
+      await message.guild.channels.create({ name: '💬・geral', type: ChannelType.GuildText, parent: cat2.id });
+
+      // ================= ANDROID
+      const cat3 = await message.guild.channels.create({ name: '📱 FFH4X ANDROID', type: ChannelType.GuildCategory });
+      const apk = await message.guild.channels.create({ name: '🏅・apk-mod-android', type: ChannelType.GuildText, parent: cat3.id });
+      await message.guild.channels.create({ name: '🏅・contas-ghost-ff', type: ChannelType.GuildText, parent: cat3.id });
+      await message.guild.channels.create({ name: '🏅・holograma-android', type: ChannelType.GuildText, parent: cat3.id });
+      await message.guild.channels.create({ name: '🏅・drip-cliente', type: ChannelType.GuildText, parent: cat3.id });
 
       // ================= IOS
-      const catIOS = await message.guild.channels.create({
-        name: '🍎 FFH4X IOS',
-        type: ChannelType.GuildCategory
-      });
-
-      const rage = await message.guild.channels.create({
-        name: '🏅・iphone-rage',
-        type: ChannelType.GuildText,
-        parent: catIOS.id
-      });
-
-      const safe = await message.guild.channels.create({
-        name: '🏅・iphone-safe',
-        type: ChannelType.GuildText,
-        parent: catIOS.id
-      });
-
-      const bypass = await message.guild.channels.create({
-        name: '🏅・bypass-full',
-        type: ChannelType.GuildText,
-        parent: catIOS.id
-      });
-
-      const wifi = await message.guild.channels.create({
-        name: '🏅・hs-wifi',
-        type: ChannelType.GuildText,
-        parent: catIOS.id
-      });
+      const cat4 = await message.guild.channels.create({ name: '🍎 FFH4X IOS', type: ChannelType.GuildCategory });
+      const rage = await message.guild.channels.create({ name: '🏅・iphone-rage', type: ChannelType.GuildText, parent: cat4.id });
+      const safe = await message.guild.channels.create({ name: '🏅・iphone-safe', type: ChannelType.GuildText, parent: cat4.id });
+      const bypass = await message.guild.channels.create({ name: '🏅・bypass-full', type: ChannelType.GuildText, parent: cat4.id });
+      const wifi = await message.guild.channels.create({ name: '🏅・hs-wifi', type: ChannelType.GuildText, parent: cat4.id });
 
       // ================= SUPORTE
-      const catSup = await message.guild.channels.create({
-        name: '🎟️ SUPORTE',
-        type: ChannelType.GuildCategory
-      });
+      const cat5 = await message.guild.channels.create({ name: '🎟️ SUPORTE', type: ChannelType.GuildCategory });
+      const suporte = await message.guild.channels.create({ name: '💬・suporte', type: ChannelType.GuildText, parent: cat5.id });
+      await message.guild.channels.create({ name: '🔊 Atendimento 1', type: ChannelType.GuildVoice, parent: cat5.id });
+      await message.guild.channels.create({ name: '🔊 Atendimento 2', type: ChannelType.GuildVoice, parent: cat5.id });
 
-      const suporte = await message.guild.channels.create({
-        name: '💬・suporte',
-        type: ChannelType.GuildText,
-        parent: catSup.id
-      });
+      // ================= DOWNLOADS
+      const cat6 = await message.guild.channels.create({ name: '📥 DOWNLOADS', type: ChannelType.GuildCategory });
+      await message.guild.channels.create({ name: '✅・download-android', type: ChannelType.GuildText, parent: cat6.id });
+      await message.guild.channels.create({ name: '✅・download-ios', type: ChannelType.GuildText, parent: cat6.id });
+      await message.guild.channels.create({ name: '✅・download-wifi', type: ChannelType.GuildText, parent: cat6.id });
+      await message.guild.channels.create({ name: '✅・download-drip', type: ChannelType.GuildText, parent: cat6.id });
 
-      // ================= FUNÇÃO PAINEL VENDA
-      async function painelVenda(canal, nomeProduto) {
+      // ================= FUNÇÃO PAINEL COMPLETO
+      async function painel(canal, nome) {
 
         const embed = new EmbedBuilder()
-          .setTitle(`🔥😈 Painel ${nomeProduto} 😈🔥`)
+          .setTitle(`🔥😈 Adquira seu Painel ${nome} 😈🔥`)
           .setDescription(`
-🔥😈 Adquira Já seu Painel ${nomeProduto} 😈🔥
+🔥😈 Adquira Já seu Painel ${nome} 😈🔥
 
-💎 Experiência diferenciada
+🔥 ${nome}!
 
-📥 Entrega via ticket
-📲 Suporte disponível
+Se você quer qualidade e resultado, esse painel é pra você.
+
+💎 Experiência diferenciada e máxima eficiência
+
+🔥 O que tem:
+• Aimbot Full
+• ESPs Full
+• Configurável
+• Head / Neck / Chest
+
+💥 Diferenciais
+• Funciona em todos dispositivos 🚀
+• Suporte + Tutorial
+
+🎮 Ideal para:
+• Rank
+• CS
+• Jogar AP
+
+📥 Você recebe:
+• Key no privado
+• Acesso a downloads
+
+🚨 Pode haver risco de blacklist
+
+📦 Entrega rápida
+📲 Suporte antes da compra
 
 😈🔥 Garanta o seu agora!
           `)
@@ -116,14 +127,14 @@ client.on('messageCreate', async (message) => {
         });
       }
 
-      // ================= PAINEIS AUTOMATICOS
-      await painelVenda(apk, 'FFH4X ANDROID');
-      await painelVenda(rage, 'IPHONE RAGE');
-      await painelVenda(safe, 'IPHONE SAFE');
-      await painelVenda(bypass, 'BYPASS FULL');
-      await painelVenda(wifi, 'HS WIFI');
+      // ================= PAINEIS
+      await painel(apk, 'FFH4X ANDROID');
+      await painel(rage, 'IPHONE RAGE');
+      await painel(safe, 'IPHONE SAFE');
+      await painel(bypass, 'BYPASS FULL');
+      await painel(wifi, 'HS WIFI');
 
-      // ================= PAINEL SUPORTE
+      // ================= SUPORTE
       const embedSup = new EmbedBuilder()
         .setTitle('📋 Painel de Atendimento')
         .setDescription(`
@@ -138,7 +149,6 @@ client.on('messageCreate', async (message) => {
 
       const menu = new StringSelectMenuBuilder()
         .setCustomId('menu_ticket')
-        .setPlaceholder('Escolha o tipo')
         .addOptions([
           { label: 'Suporte', value: 'suporte' },
           { label: 'Reembolso', value: 'reembolso' },
@@ -151,22 +161,19 @@ client.on('messageCreate', async (message) => {
         components: [new ActionRowBuilder().addComponents(menu)]
       });
 
-      message.channel.send('✅ SERVIDOR COMPLETO CRIADO!');
+      message.channel.send('✅ SERVIDOR COMPLETO PRONTO!');
 
-    } catch (err) {
-      console.error(err);
-      message.channel.send('❌ Erro ao criar');
+    } catch (e) {
+      console.log(e);
+      message.channel.send('❌ Erro');
     }
-
   }
-
 });
 
 // ================= INTERAÇÕES
 client.on('interactionCreate', async (interaction) => {
 
-  // BOTÃO COMPRA
-  if (interaction.isButton() && interaction.customId === 'comprar') {
+  if (interaction.isButton()) {
 
     const menu = new StringSelectMenuBuilder()
       .setCustomId('plano')
@@ -184,10 +191,7 @@ client.on('interactionCreate', async (interaction) => {
     });
   }
 
-  // CRIAR TICKET VENDA
   if (interaction.isStringSelectMenu() && interaction.customId === 'plano') {
-
-    const valor = interaction.values[0];
 
     const canal = await interaction.guild.channels.create({
       name: `ticket-${interaction.user.username}`,
@@ -199,8 +203,8 @@ client.on('interactionCreate', async (interaction) => {
     });
 
     canal.send(`
-👤 Cliente: ${interaction.user}
-💰 Valor: R$${valor}
+💰 Pagamento via PIX
+💵 Valor: R$${interaction.values[0]}
 
 📲 Chave PIX:
 O dono vai enviar aqui
@@ -212,8 +216,7 @@ O dono vai enviar aqui
     });
   }
 
-  // TICKET SUPORTE
-  if (interaction.isStringSelectMenu() && interaction.customId === 'menu_ticket') {
+  if (interaction.customId === 'menu_ticket') {
 
     const canal = await interaction.guild.channels.create({
       name: `suporte-${interaction.user.username}`,
