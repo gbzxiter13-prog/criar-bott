@@ -22,7 +22,7 @@ client.once('ready', () => {
   console.log('🔥 BOT ONLINE');
 });
 
-// ================= SETUP
+// ================= SETUP COMPLETO
 client.on('messageCreate', async (message) => {
 
   if (message.author.bot) return;
@@ -33,7 +33,7 @@ client.on('messageCreate', async (message) => {
 
     try {
 
-      // ================= BOAS VINDAS
+      // ================= CATEGORIAS E CANAIS
       const cat1 = await message.guild.channels.create({ name: '📌 BOAS-VINDAS', type: ChannelType.GuildCategory });
       await message.guild.channels.create({ name: '👋・boas-vindas', type: ChannelType.GuildText, parent: cat1.id });
       await message.guild.channels.create({ name: '📢・avisos', type: ChannelType.GuildText, parent: cat1.id });
@@ -42,42 +42,28 @@ client.on('messageCreate', async (message) => {
       await message.guild.channels.create({ name: '💜・seja-da-equipe', type: ChannelType.GuildText, parent: cat1.id });
       await message.guild.channels.create({ name: '✅・verificacao', type: ChannelType.GuildText, parent: cat1.id });
 
-      // ================= GERAL
       const cat2 = await message.guild.channels.create({ name: '💬 GERAL', type: ChannelType.GuildCategory });
       await message.guild.channels.create({ name: '💬・geral', type: ChannelType.GuildText, parent: cat2.id });
 
-      // ================= ANDROID
       const cat3 = await message.guild.channels.create({ name: '📱 FFH4X ANDROID', type: ChannelType.GuildCategory });
       const apk = await message.guild.channels.create({ name: '🏅・apk-mod-android', type: ChannelType.GuildText, parent: cat3.id });
-      await message.guild.channels.create({ name: '🏅・contas-ghost-ff', type: ChannelType.GuildText, parent: cat3.id });
-      await message.guild.channels.create({ name: '🏅・holograma-android', type: ChannelType.GuildText, parent: cat3.id });
-      await message.guild.channels.create({ name: '🏅・drip-cliente', type: ChannelType.GuildText, parent: cat3.id });
+      const ghost = await message.guild.channels.create({ name: '🏅・contas-ghost-ff', type: ChannelType.GuildText, parent: cat3.id });
+      const drip = await message.guild.channels.create({ name: '🏅・drip-cliente', type: ChannelType.GuildText, parent: cat3.id });
 
-      // ================= IOS
       const cat4 = await message.guild.channels.create({ name: '🍎 FFH4X IOS', type: ChannelType.GuildCategory });
       const rage = await message.guild.channels.create({ name: '🏅・iphone-rage', type: ChannelType.GuildText, parent: cat4.id });
       const safe = await message.guild.channels.create({ name: '🏅・iphone-safe', type: ChannelType.GuildText, parent: cat4.id });
       const bypass = await message.guild.channels.create({ name: '🏅・bypass-full', type: ChannelType.GuildText, parent: cat4.id });
       const wifi = await message.guild.channels.create({ name: '🏅・hs-wifi', type: ChannelType.GuildText, parent: cat4.id });
 
-      // ================= SUPORTE
       const cat5 = await message.guild.channels.create({ name: '🎟️ SUPORTE', type: ChannelType.GuildCategory });
       const suporte = await message.guild.channels.create({ name: '💬・suporte', type: ChannelType.GuildText, parent: cat5.id });
-      await message.guild.channels.create({ name: '🔊 Atendimento 1', type: ChannelType.GuildVoice, parent: cat5.id });
-      await message.guild.channels.create({ name: '🔊 Atendimento 2', type: ChannelType.GuildVoice, parent: cat5.id });
 
-      // ================= DOWNLOADS
-      const cat6 = await message.guild.channels.create({ name: '📥 DOWNLOADS', type: ChannelType.GuildCategory });
-      await message.guild.channels.create({ name: '✅・download-android', type: ChannelType.GuildText, parent: cat6.id });
-      await message.guild.channels.create({ name: '✅・download-ios', type: ChannelType.GuildText, parent: cat6.id });
-      await message.guild.channels.create({ name: '✅・download-wifi', type: ChannelType.GuildText, parent: cat6.id });
-      await message.guild.channels.create({ name: '✅・download-drip', type: ChannelType.GuildText, parent: cat6.id });
-
-      // ================= FUNÇÃO PAINEL COMPLETO
+      // ================= FUNÇÃO PAINEL (MENSAGEM COMPLETA)
       async function painel(canal, nome) {
 
         const embed = new EmbedBuilder()
-          .setTitle(`🔥😈 Adquira seu Painel ${nome} 😈🔥`)
+          .setTitle(`🔥😈 Adquira Já seu Painel ${nome} 😈🔥`)
           .setDescription(`
 🔥😈 Adquira Já seu Painel ${nome} 😈🔥
 
@@ -134,6 +120,34 @@ Se você quer qualidade e resultado, esse painel é pra você.
       await painel(bypass, 'BYPASS FULL');
       await painel(wifi, 'HS WIFI');
 
+      // ================= CONTA GHOST (ESPECIAL)
+      const embedGhost = new EmbedBuilder()
+        .setTitle('🎮 CONTA FREE FIRE – GUEST')
+        .setDescription(`
+Conta ideal para quem busca segurança, praticidade e entrega imediata.
+
+💎 Detalhes da Conta
+• 🟢 Conta nova
+• ✏️ Troca de nick
+• 🛡️ Nunca usada
+• 🚫 Sem banimentos
+• ⚡ Entrega imediata
+
+💰 Valor: R$3,00
+        `)
+        .setImage('https://i.ytimg.com/vi/51ptIy41tr0/hq720.jpg')
+        .setColor('#8A2BE2');
+
+      const botaoGhost = new ButtonBuilder()
+        .setCustomId('comprar')
+        .setLabel('Comprar agora')
+        .setStyle(ButtonStyle.Success);
+
+      ghost.send({
+        embeds: [embedGhost],
+        components: [new ActionRowBuilder().addComponents(botaoGhost)]
+      });
+
       // ================= SUPORTE
       const embedSup = new EmbedBuilder()
         .setTitle('📋 Painel de Atendimento')
@@ -161,11 +175,11 @@ Se você quer qualidade e resultado, esse painel é pra você.
         components: [new ActionRowBuilder().addComponents(menu)]
       });
 
-      message.channel.send('✅ SERVIDOR COMPLETO PRONTO!');
+      message.channel.send('✅ SERVIDOR COMPLETO CRIADO COM SUCESSO!');
 
     } catch (e) {
       console.log(e);
-      message.channel.send('❌ Erro');
+      message.channel.send('❌ Erro ao criar');
     }
   }
 });
