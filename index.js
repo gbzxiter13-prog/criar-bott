@@ -18,48 +18,51 @@ const client = new Client({
   ]
 });
 
+const ticketsAbertos = new Set();
+
 client.once('ready', () => {
   console.log('🔥 BOT ONLINE');
 });
 
-// ================= SETUP COMPLETO
+// ================= SETUP
 client.on('messageCreate', async (message) => {
 
   if (message.author.bot) return;
 
-  if (message.content === '!miguelgay') {
+  if (message.content === '!criar') {
 
-    await message.reply('⚙️ Criando servidor completo...');
+    await message.reply('⚙️ obrigado cliente por fazer a compra, aqui o produto');
 
     try {
 
-      // ================= CATEGORIAS E CANAIS
+      // ===== BOAS VINDAS
       const cat1 = await message.guild.channels.create({ name: '📌 BOAS-VINDAS', type: ChannelType.GuildCategory });
       await message.guild.channels.create({ name: '👋・boas-vindas', type: ChannelType.GuildText, parent: cat1.id });
       await message.guild.channels.create({ name: '📢・avisos', type: ChannelType.GuildText, parent: cat1.id });
       await message.guild.channels.create({ name: '📜・termos', type: ChannelType.GuildText, parent: cat1.id });
-      await message.guild.channels.create({ name: '📥・como-adquirir', type: ChannelType.GuildText, parent: cat1.id });
-      await message.guild.channels.create({ name: '💜・seja-da-equipe', type: ChannelType.GuildText, parent: cat1.id });
-      await message.guild.channels.create({ name: '✅・verificacao', type: ChannelType.GuildText, parent: cat1.id });
 
+      // ===== GERAL
       const cat2 = await message.guild.channels.create({ name: '💬 GERAL', type: ChannelType.GuildCategory });
       await message.guild.channels.create({ name: '💬・geral', type: ChannelType.GuildText, parent: cat2.id });
 
+      // ===== ANDROID
       const cat3 = await message.guild.channels.create({ name: '📱 FFH4X ANDROID', type: ChannelType.GuildCategory });
       const apk = await message.guild.channels.create({ name: '🏅・apk-mod-android', type: ChannelType.GuildText, parent: cat3.id });
       const ghost = await message.guild.channels.create({ name: '🏅・contas-ghost-ff', type: ChannelType.GuildText, parent: cat3.id });
       const drip = await message.guild.channels.create({ name: '🏅・drip-cliente', type: ChannelType.GuildText, parent: cat3.id });
 
+      // ===== IOS
       const cat4 = await message.guild.channels.create({ name: '🍎 FFH4X IOS', type: ChannelType.GuildCategory });
       const rage = await message.guild.channels.create({ name: '🏅・iphone-rage', type: ChannelType.GuildText, parent: cat4.id });
       const safe = await message.guild.channels.create({ name: '🏅・iphone-safe', type: ChannelType.GuildText, parent: cat4.id });
       const bypass = await message.guild.channels.create({ name: '🏅・bypass-full', type: ChannelType.GuildText, parent: cat4.id });
       const wifi = await message.guild.channels.create({ name: '🏅・hs-wifi', type: ChannelType.GuildText, parent: cat4.id });
 
+      // ===== SUPORTE
       const cat5 = await message.guild.channels.create({ name: '🎟️ SUPORTE', type: ChannelType.GuildCategory });
       const suporte = await message.guild.channels.create({ name: '💬・suporte', type: ChannelType.GuildText, parent: cat5.id });
 
-      // ================= FUNÇÃO PAINEL (MENSAGEM COMPLETA)
+      // ================= FUNÇÃO PAINEL
       async function painel(canal, nome) {
 
         const embed = new EmbedBuilder()
@@ -113,29 +116,25 @@ Se você quer qualidade e resultado, esse painel é pra você.
         });
       }
 
-      // ================= PAINEIS
+      // ===== PAINEIS
       await painel(apk, 'FFH4X ANDROID');
       await painel(rage, 'IPHONE RAGE');
       await painel(safe, 'IPHONE SAFE');
       await painel(bypass, 'BYPASS FULL');
       await painel(wifi, 'HS WIFI');
+      await painel(drip, 'DRIP CLIENTE');
 
-      // ================= CONTA GHOST (ESPECIAL)
+      // ===== CONTA GHOST
       const embedGhost = new EmbedBuilder()
         .setTitle('🎮 CONTA FREE FIRE – GUEST')
         .setDescription(`
-Conta ideal para quem busca segurança, praticidade e entrega imediata.
+Conta ideal para quem busca praticidade.
 
-💎 Detalhes da Conta
-• 🟢 Conta nova
-• ✏️ Troca de nick
-• 🛡️ Nunca usada
-• 🚫 Sem banimentos
-• ⚡ Entrega imediata
+💎 Conta nova
+⚡ Entrega imediata
 
 💰 Valor: R$3,00
         `)
-        .setImage('https://i.ytimg.com/vi/51ptIy41tr0/hq720.jpg')
         .setColor('#8A2BE2');
 
       const botaoGhost = new ButtonBuilder()
@@ -148,7 +147,7 @@ Conta ideal para quem busca segurança, praticidade e entrega imediata.
         components: [new ActionRowBuilder().addComponents(botaoGhost)]
       });
 
-      // ================= SUPORTE
+      // ===== SUPORTE PAINEL
       const embedSup = new EmbedBuilder()
         .setTitle('📋 Painel de Atendimento')
         .setDescription(`
@@ -156,8 +155,10 @@ Conta ideal para quem busca segurança, praticidade e entrega imediata.
 
 • Atendimento: 08:00 às 00:00
 • Seja objetivo
-• Tempo: 1 hora
-• Sem discussões
+• Tempo máximo: 1 hora
+• Sem discussões após decisão
+
+Escolha abaixo o tipo de suporte:
         `)
         .setColor('#8A2BE2');
 
@@ -175,7 +176,7 @@ Conta ideal para quem busca segurança, praticidade e entrega imediata.
         components: [new ActionRowBuilder().addComponents(menu)]
       });
 
-      message.channel.send('✅ SERVIDOR COMPLETO CRIADO COM SUCESSO!');
+      message.channel.send('✅ SERVIDOR COMPLETO CRIADO!');
 
     } catch (e) {
       console.log(e);
@@ -187,7 +188,8 @@ Conta ideal para quem busca segurança, praticidade e entrega imediata.
 // ================= INTERAÇÕES
 client.on('interactionCreate', async (interaction) => {
 
-  if (interaction.isButton()) {
+  // ===== BOTÃO COMPRAR
+  if (interaction.isButton() && interaction.customId === 'comprar') {
 
     const menu = new StringSelectMenuBuilder()
       .setCustomId('plano')
@@ -205,7 +207,14 @@ client.on('interactionCreate', async (interaction) => {
     });
   }
 
+  // ===== CRIAR TICKET COMPRA
   if (interaction.isStringSelectMenu() && interaction.customId === 'plano') {
+
+    if (ticketsAbertos.has(interaction.user.id)) {
+      return interaction.reply({ content: '❌ Você já tem um ticket!', ephemeral: true });
+    }
+
+    ticketsAbertos.add(interaction.user.id);
 
     const canal = await interaction.guild.channels.create({
       name: `ticket-${interaction.user.username}`,
@@ -216,13 +225,29 @@ client.on('interactionCreate', async (interaction) => {
       ]
     });
 
-    canal.send(`
-💰 Pagamento via PIX
-💵 Valor: R$${interaction.values[0]}
+    const embed = new EmbedBuilder()
+      .setDescription(`
+👤 ${interaction.user} criou o ticket
+
+💰 Valor: R$${interaction.values[0]}
 
 📲 Chave PIX:
 O dono vai enviar aqui
-    `);
+
+⏳ Aguarde confirmação
+      `)
+      .setColor('#8A2BE2');
+
+    const fechar = new ButtonBuilder()
+      .setCustomId('fechar_ticket')
+      .setLabel('Fechar Ticket')
+      .setStyle(ButtonStyle.Danger);
+
+    canal.send({
+      content: `${interaction.user}`,
+      embeds: [embed],
+      components: [new ActionRowBuilder().addComponents(fechar)]
+    });
 
     interaction.reply({
       content: `✅ Ticket criado: ${canal}`,
@@ -230,7 +255,26 @@ O dono vai enviar aqui
     });
   }
 
-  if (interaction.customId === 'menu_ticket') {
+  // ===== FECHAR TICKET
+  if (interaction.isButton() && interaction.customId === 'fechar_ticket') {
+
+    ticketsAbertos.delete(interaction.user.id);
+
+    await interaction.reply({ content: '❌ Fechando...', ephemeral: true });
+
+    setTimeout(() => {
+      interaction.channel.delete().catch(() => {});
+    }, 2000);
+  }
+
+  // ===== SUPORTE
+  if (interaction.isStringSelectMenu() && interaction.customId === 'menu_ticket') {
+
+    if (ticketsAbertos.has(interaction.user.id)) {
+      return interaction.reply({ content: '❌ Você já tem um ticket!', ephemeral: true });
+    }
+
+    ticketsAbertos.add(interaction.user.id);
 
     const canal = await interaction.guild.channels.create({
       name: `suporte-${interaction.user.username}`,
@@ -241,7 +285,27 @@ O dono vai enviar aqui
       ]
     });
 
-    canal.send(`🎟️ Ticket criado por ${interaction.user}`);
+    const embed = new EmbedBuilder()
+      .setDescription(`
+👤 ${interaction.user} criou o ticket
+
+Aguarde a equipe de suporte/staff para lhe responder.
+
+📌 Não envie spam
+📌 Aguarde atendimento
+      `)
+      .setColor('#8A2BE2');
+
+    const fechar = new ButtonBuilder()
+      .setCustomId('fechar_ticket')
+      .setLabel('Fechar Ticket')
+      .setStyle(ButtonStyle.Danger);
+
+    canal.send({
+      content: `${interaction.user}`,
+      embeds: [embed],
+      components: [new ActionRowBuilder().addComponents(fechar)]
+    });
 
     interaction.reply({
       content: `✅ Ticket criado: ${canal}`,
